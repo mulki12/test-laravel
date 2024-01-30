@@ -146,7 +146,7 @@ pipeline {
                   //sh 'sudo chmod u+x /usr/local/bin/kubectl', text:readFile(KUBECONFIG)
                   sh "aws ecr get-login-password --region ap-southeast-1 | aws eks update-kubeconfig --name EKS-Cluster --region ap-southeast-1"
                   sh "pwd"
-                  sh "cp .kube* ~/.kube"
+                  sh "cp ../.kube* ~/.kube"
                   sh "helm version"
                   sh "helm ls -a"
                   sh """
