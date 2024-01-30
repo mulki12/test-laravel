@@ -164,7 +164,7 @@ pipeline {
                   sh "helm ls -A"
                   sh """
             helm upgrade ${NAME_APP} ./helm/${NAME_APP} \
-            --set-string image.repository=${REPOSITORY_URI},image.tag=${BUILD_ID} \
+            --set-string image.repository=${REPOSITORY_URI},image.tag=${IMAGE_TAG} \
             -f ./helm/values.dev.yml --debug --install --namespace ${NAMESPACE}
             """
                 }
