@@ -142,7 +142,8 @@ pipeline {
                   echo "Deploy to cluster ${KUBECONFIG}"
                   sh "mkdir -p /root/.kube/"
                   sh "whoami"
-                  writeFile file: '/root/.kube/config', text: readFile(KUBECONFIG)
+                  sh "touch /root/.kube/config"
+                  //writeFile file: '/root/.kube/config', text: readFile(KUBECONFIG)
                   //sh 'sudo chmod u+x /usr/local/bin/kubectl', text:readFile(KUBECONFIG)
                   sh "aws ecr get-login-password --region ap-southeast-1 | aws eks update-kubeconfig --name EKS-Cluster --region ap-southeast-1"
                   sh "pwd"
