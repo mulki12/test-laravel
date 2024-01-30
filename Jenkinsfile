@@ -130,6 +130,18 @@ pipeline {
       }
     }
 
+    stage('hello AWS') {
+            steps {
+                withAWS(credentials: 'aws-cred', region: 'ap-southeast-1') {
+                    //sh 'echo "hello KB">hello.txt'
+                    //s3Upload acl: 'Private', bucket: 'test-laravel', file: 'hello.txt'
+                    //s3Download bucket: 'kb-bucket', file: 'downloadedHello.txt', path: 'hello.txt'
+                    //sh 'cat downloadedHello.txt'
+                }
+            }
+        }
+      
+
     stage('deployment') {
       environment {
         REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/test-laravel"
@@ -137,7 +149,7 @@ pipeline {
         steps{
           container('helm'){
             script {
-              withKubeConfig([credentialsId: 'config', serverUrl: '']) {
+              withAWS(credentials: 'aws-cred', region: 'ap-southeast-1') {
                 dir ('repo-config') {
                   echo "Deploy to cluster ${KUBECONFIG}"
                   sh "mkdir -p /root/.kube/"
@@ -149,7 +161,7 @@ pipeline {
                   sh "pwd"
                   sh "cp -f ../.kube* /root/.kube/config"
                   sh "helm version"
-                  sh "helm ls -a"
+                  sh "helm ls -A"
                   sh """
             helm upgrade ${NAME_APP} ./helm/${NAME_APP} \
             --set-string image.repository=${REPOSITORY_URI},image.tag=${BUILD_ID} \
