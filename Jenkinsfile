@@ -43,7 +43,7 @@ pipeline {
           serviceAccountName: cd-jenkins
           containers:
           - name: helm
-            image: masfikri/aws-helm-kubectl:latest
+            image: masfikri/aws-helm-kubectl:v3
             imagePullPolicy: IfNotPresent
             command:
             - cat
