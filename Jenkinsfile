@@ -140,10 +140,13 @@ pipeline {
               withKubeConfig([credentialsId: 'config', serverUrl: '']) {
                 dir ('repo-config') {
                   echo "Deploy to cluster ${KUBECONFIG}"
-                  //sh "mkdir -p ~/.kube/"
+                  sh "mkdir -p ~/.kube/"
+                  sh "whoami"
                   //writeFile file: '~/.kube/config', text: readFile(KUBECONFIG)
                   //sh 'sudo chmod u+x /usr/local/bin/kubectl', text:readFile(KUBECONFIG)
                   sh "aws ecr get-login-password --region ap-southeast-1 | aws eks update-kubeconfig --name EKS-Cluster --region ap-southeast-1"
+                  sh "pwd"
+                  sh "cp .kube* ~/.kube"
                   sh "helm version"
                   sh "helm ls -a"
                   sh """
