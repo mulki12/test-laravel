@@ -187,16 +187,7 @@ pipeline {
     // }
     // Uploading Docker images into AWS ECR
 
-    stage('Pushing to ECR') {
-        steps{  
-          script {
-            sh 'aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com' 
-            sh 'docker tag $JOB_NAME:$BUILD_ID ${REPOSITORY_URI}:$BUILD_ID'
-            sh 'docker push ${REPOSITORY_URI}:$BUILD_ID'
-            sh 'docker rmi $JOB_NAME:$BUILD_ID ${REPOSITORY_URI}:$BUILD_ID' // Delete docker images from server 
-          }
-        }
-      }
+
 
 //    stage('Deploy our image') {
 //      steps{
@@ -207,7 +198,34 @@ pipeline {
 //        }
 //      }
 //    }
+    stage("clean") {
+      environment {
+        REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/test-laravel"
+      }
+      when {
+        expression {
+         return (  params.CLEAN_REPO == "yes"  )
+        }
+      }
+      steps {
+        container("jnlp") {
+            dir('code') {
+               script {
 
+                    sshagent(["pem-credential"]) {
+
+                    sh "ssh -o StrictHostKeyChecking=no ${INSTANCE_USER}@${INSTANCE_IP} docker rmi ${REPOSITORY_URI}:${IMAGE_TAG}"
+
+                    sh "ssh -o StrictHostKeyChecking=no ${INSTANCE_USER}@${INSTANCE_IP} docker image prune --force"
+
+                    sh "ssh -o StrictHostKeyChecking=no ${INSTANCE_USER}@${INSTANCE_IP} rm -rf /home/${INSTANCE_USER}/agent/workspace/${NAME_APP}"
+
+                    }
+               }
+            }
+        }
+      }
+    }
   }
 }
 
