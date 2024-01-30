@@ -202,11 +202,11 @@ pipeline {
       environment {
         REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/test-laravel"
       }
-      when {
-        expression {
-         return (  params.CLEAN_REPO == "yes"  )
-        }
-      }
+      // when {
+      //   expression {
+      //    return (  params.CLEAN_REPO == "yes"  )
+      //   }
+      // }
       steps {
         container("jnlp") {
             dir('code') {
