@@ -4,13 +4,14 @@ def AWS_ACCOUNT_ID="221047265242"
 def AWS_DEFAULT_REGION="ap-southeast-1"
 def NAMESPACE="health-check"
 def NAME_APP="test-laravel"
+def ECR_NAME="test-laravel"
 def IMAGE_TAG=""
 def CODE_REPO="https://github.com/mulki12/test-laravel.git"
 def CREDENTIAL_CODE_REPO="github-mulki"
 def REPO_CONFIG="https://github.com/mulki12/test-laravel-config.git"
 def CREDENTIAL_CONFIG_REPO="github-mulki"
 def KUBECONFIG="config"
-def REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/test-laravel"
+def REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_NAME}"
 
 pipeline {
 
@@ -90,7 +91,7 @@ pipeline {
 
     stage("build image") {
       environment {
-        REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/test-laravel"
+        REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_NAME}"
       }
       steps {
         container("jnlp") {
@@ -141,7 +142,7 @@ pipeline {
 
     stage('deployment') {
       environment {
-        REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/test-laravel"
+        REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_NAME}"
       }
         steps{
           container('helm'){
