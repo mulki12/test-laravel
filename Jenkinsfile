@@ -213,7 +213,7 @@ pipeline {
             dir('code') {
                script {
 
-                    sshagent(["pem-credential"]) {
+                    sshagent(["ubuntu-eks-pem"]) {
 
                     sh "ssh -o StrictHostKeyChecking=no ${INSTANCE_USER}@${INSTANCE_IP} docker rmi ${REPOSITORY_URI}:${IMAGE_TAG}"
 
