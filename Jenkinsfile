@@ -90,9 +90,6 @@ pipeline {
         }
 
     stage("build image") {
-      environment {
-        REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_NAME}"
-      }
       steps {
         container("jnlp") {
             dir('code') {
@@ -141,9 +138,6 @@ pipeline {
         }
 
     stage('deployment') {
-      environment {
-        REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_NAME}"
-      }
         steps{
           container('helm'){
             script {
