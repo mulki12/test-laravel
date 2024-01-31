@@ -105,7 +105,7 @@ pipeline {
                     
                     sh "ls -lah"
                     sh "pwd"
-                    sshagent(["pem-credential"]) {
+                    sshagent(["ubuntu-eks-pem"]) {
 
                     sh "whoami"
                     //sh "scp -o StrictHostKeyChecking=no rm -rf /home/jenkins/agent/workspace/${NAME_APP}/.git"
