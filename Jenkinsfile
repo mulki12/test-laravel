@@ -100,7 +100,7 @@ pipeline {
                     def commit_id = readFile('.git/commit-id').trim()
                     IMAGE_TAG = commit_id.substring(0,7)
 
-                    sh "aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com"
+                    //sh "aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com"
                     sh "ls -lah"
                     sh "pwd"
                     sshagent(["ubuntu-eks-pem"]) {
