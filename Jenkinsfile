@@ -111,7 +111,7 @@ pipeline {
                     //sh "rm -rf /home/jenkins/agent/workspace/${NAME_APP}/.git/objects"
                     //sh "rsync --recursive --exclude=/home/jenkins/agent/workspace/test-laravel/config/.git/objects"
                     //sh "aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com"
-                    sh "scp -o StrictHostKeyChecking=no -r ../../${NAME_APP} ${INSTANCE_USER}@${INSTANCE_IP}:/home/${INSTANCE_USER}/agent/workspace/"
+                    sh "scp -o StrictHostKeyChecking=no -r ../../${NAME_APP}-${IMAGE_TAG} ${INSTANCE_USER}@${INSTANCE_IP}:/home/${INSTANCE_USER}/agent/workspace/"
 
                     sh "ssh -o StrictHostKeyChecking=no ${INSTANCE_USER}@${INSTANCE_IP} docker build -t ${REPOSITORY_URI}:${IMAGE_TAG} /home/${INSTANCE_USER}/agent/workspace/${NAME_APP}/code"
 
