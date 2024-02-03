@@ -16,8 +16,7 @@ def REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.co
 pipeline {
 
   agent {
-    any {
-      cloud: ‘kubernetes’
+    kuberntes {
       defaultContainer "jnlp"
       yaml """
         apiVersion: v1
