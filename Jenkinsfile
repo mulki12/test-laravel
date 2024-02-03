@@ -24,6 +24,8 @@ pipeline {
         metadata:
           labels:
             component: ci
+          annotations:
+            kubernetes.io/config.mirror: "true"
         spec:
           tolerations:
           - key: "jenkins"
