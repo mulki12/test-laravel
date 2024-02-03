@@ -24,7 +24,10 @@ pipeline {
         metadata:
           labels:
             component: ci
+          annotations:    
+            kubernetes.io/config.mirror: "true"
         spec:
+          nodeName: ip-10-1-52-16.ap-southeast-1.compute.internal
           tolerations:
           - key: "jenkins"
             operator: "Equal"
