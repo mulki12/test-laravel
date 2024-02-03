@@ -43,12 +43,12 @@ pipeline {
           # Use service account that can deploy to all namespaces
           serviceAccountName: cd-jenkins
           containers:
-         - name: helm
-           image: masfikri/aws-helm-kubectl:v3
-           imagePullPolicy: IfNotPresent
-           command:
-           - cat
-           tty: true
+          - name: helm
+            image: masfikri/aws-helm-kubectl:v3
+            imagePullPolicy: IfNotPresent
+            command:
+            - cat
+            tty: true
       """
     }
   }
