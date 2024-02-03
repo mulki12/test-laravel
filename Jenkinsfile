@@ -17,7 +17,6 @@ pipeline {
 
   agent {
     kubernetes {
-      cloud "eks-kubernetes"
       defaultContainer "jnlp"
       yaml """
         apiVersion: v1
