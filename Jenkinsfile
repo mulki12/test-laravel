@@ -13,11 +13,10 @@ def CREDENTIAL_CONFIG_REPO="github-mulki"
 def KUBECONFIG="config"
 def REPOSITORY_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_NAME}"
 
-pipeline {
 
+pipeline {
   agent {
     kubernetes {
-      label "eks-kubernetes"
       defaultContainer "jnlp"
       yaml """
         apiVersion: v1
@@ -25,13 +24,11 @@ pipeline {
         metadata:
           labels:
             component: ci
-          annotations:
-            kubernetes.io/config.mirror: "true"
         spec:
           tolerations:
           - key: "jenkins"
             operator: "Equal"
-            value: "agent"  
+            value: "agent"
             effect: "NoSchedule"
           affinity:
             nodeAffinity:
@@ -46,18 +43,58 @@ pipeline {
           # Use service account that can deploy to all namespaces
           serviceAccountName: cd-jenkins
           containers:
-          - name: helm
-            image: masfikri/aws-helm-kubectl:v3
-            imagePullPolicy: IfNotPresent
-            command:
-            - cat
-            tty: true
-          - name: jnlp
-            image: masfikri/jnlp-agent:4.13
-            imagePullPolicy: IfNotPresent
+         - name: helm
+           image: masfikri/aws-helm-kubectl:v3
+           imagePullPolicy: IfNotPresent
+           command:
+           - cat
+           tty: true
       """
     }
-  } 
+  }
+  // agent {
+  //   kubernetes {
+  //     label "eks-kubernetes"
+  //     defaultContainer "jnlp"
+  //     yaml """
+  //       apiVersion: v1
+  //       kind: Pod
+  //       metadata:
+  //         labels:
+  //           component: ci
+  //         annotations:
+  //           kubernetes.io/config.mirror: "true"
+  //       spec:
+  //         tolerations:
+  //         - key: "jenkins"
+  //           operator: "Equal"
+  //           value: "agent"  
+  //           effect: "NoSchedule"
+  //         affinity:
+  //           nodeAffinity:
+  //             preferredDuringSchedulingIgnoredDuringExecution:
+  //              - preference:
+  //                  matchExpressions:
+  //                  - key: jenkins
+  //                    operator: In
+  //                    values:
+  //                    - agent
+  //                weight: 100
+  //         # Use service account that can deploy to all namespaces
+  //         serviceAccountName: cd-jenkins
+  //         containers:
+  //         - name: helm
+  //           image: masfikri/aws-helm-kubectl:v3
+  //           imagePullPolicy: IfNotPresent
+  //           command:
+  //           - cat
+  //           tty: true
+  //         - name: jnlp
+  //           image: masfikri/jnlp-agent:4.13
+  //           imagePullPolicy: IfNotPresent
+  //     """
+  //   }
+  // } 
 
   stages {
 
