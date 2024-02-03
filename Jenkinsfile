@@ -49,6 +49,9 @@ pipeline {
             command:
             - cat
             tty: true
+          - name: jnlp
+            image: masfikri/jnlp-agent:4.13
+            imagePullPolicy: IfNotPresent
       """
     }
   }
