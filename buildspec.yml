@@ -4,9 +4,11 @@ phases:
   install:
     commands:
       - apt install unzip
-      - curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip"
-      - unzip awscli-bundle.zip
-      - sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
+      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      - unzip awscliv2.zip
+      - sudo ./aws/install
+#      - unzip awscli-bundle.zip
+#      - sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws
   pre_build:
     commands:
       #- sudo rm -rf ~/Library/Caches/com.docker.docker ~/Library/Cookies/com.docker.docker.binarycookies ~/Library/Group\ Containers/group.com.docker ~/Library/Logs/Docker\ Desktop ~/Library/Preferences/com.docker.docker.plist ~/Library/Preferences/com.electron.docker-frontend.plist ~/Library/Saved\ Application\ State/com.electron.docker-frontend.savedState ~/.docker /Library/LaunchDaemons/com.docker.vmnetd.plist /Library/PrivilegedHelperTools/com.docker.vmnetd /usr/local/lib/docker
