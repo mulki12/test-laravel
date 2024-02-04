@@ -60,7 +60,6 @@ pipeline {
   // }
   agent {
     kubernetes {
-      label "eks-kubernetes"
       defaultContainer "jnlp"
       yaml """
         apiVersion: v1
