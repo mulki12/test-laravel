@@ -64,10 +64,12 @@ phases:
       #- export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
       #- export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
       #- aws eks update-kubeconfig --name $EKS_CLUSTERNAME
-      - kubectl apply -f deploymentmanifest.yml
+      - kubectl apply -f deploymentservice.yml
 ##      - docker push $IMAGE_TAG
 ##      - printf '[{"name":"(task_definition)","imageUri":"%s"}]' ($AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
 artifacts:
-    files: imagedefinitions.json
+    files: 
+      - imagedefinitions.json
+      - deploymentservice.yml
 
     
