@@ -18,7 +18,7 @@ phases:
       - curl -sS -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
       - chmod +x ./kubectl ./aws-iam-authenticator
       - echo login in to amazon ECR
-      - docker login https://hub.docker.com -u mulki12 -p 12Februari@ 
+      - docker login https://hub.docker.com -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASS 
       #- aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com
       - TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
       - export KUBECONFIG=$HOME/.kube/config
