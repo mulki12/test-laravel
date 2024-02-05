@@ -3,6 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
+      - $(aws ecr get-login --no-include-email --region $AWS_REGION)
       - apt install unzip
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       - unzip awscliv2.zip
@@ -12,20 +13,15 @@ phases:
       - curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/kubectl
       - chmod +x ./kubectl
       - mkdir -p ~/.local/bin && mv ./kubectl ~/.local/bin/kubectl
-      - kubectl version --short --client
-      #- aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION 
-      #- cat ~/.kube/config
-      #- curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-      #- chmod 700 get_helm.sh
-      #- ./get_helm.sh
-      
-  pre_build:
-    commands:
-      #- sudo rm -rf ~/Library/Caches/com.docker.docker ~/Library/Cookies/com.docker.docker.binarycookies ~/Library/Group\ Containers/group.com.docker ~/Library/Logs/Docker\ Desktop ~/Library/Preferences/com.docker.docker.plist ~/Library/Preferences/com.electron.docker-frontend.plist ~/Library/Saved\ Application\ State/com.electron.docker-frontend.savedState ~/.docker /Library/LaunchDaemons/com.docker.vmnetd.plist /Library/PrivilegedHelperTools/com.docker.vmnetd /usr/local/lib/docker
       - curl -sS -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
       - curl -sS -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
       - chmod +x ./kubectl ./aws-iam-authenticator
-      - echo login in to amazon ECR
+
+
+  pre_build:
+    commands:
+      #- sudo rm -rf ~/Library/Caches/com.docker.docker ~/Library/Cookies/com.docker.docker.binarycookies ~/Library/Group\ Containers/group.com.docker ~/Library/Logs/Docker\ Desktop ~/Library/Preferences/com.docker.docker.plist ~/Library/Preferences/com.electron.docker-frontend.plist ~/Library/Saved\ Application\ State/com.electron.docker-frontend.savedState ~/.docker /Library/LaunchDaemons/com.docker.vmnetd.plist /Library/PrivilegedHelperTools/com.docker.vmnetd /usr/local/lib/docker
+      - $(aws ecr get-login --no-include-email)
       #- docker login https://hub.docker.com -u $DOCKERHUB_USERNAME --password-stdin 
       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com
       #- TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
@@ -38,10 +34,6 @@ phases:
       - COMMIT_ID=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -b -8)     
       - docker build -t test-laravel:$COMMIT_ID .
       - docker image 
-      - aws configure set region $AWS_REGION
-      - aws configure set aws_access_key_id $AWS_ACCESS_KEY
-      - aws configure set aws_secret_access_key $AWS_SECRET_KEY
-      - aws configure set aws_session_token $AWS_TOKEN
 #      - COMMIT_HASH=$(git rev-parse --short HEAD)
 #      - IMAGE_TAG=221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:${COMMIT_HASH}
       
@@ -52,6 +44,14 @@ phases:
       - echo Pushing the Docker image...
       - docker tag test-laravel:$COMMIT_ID  221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID 
       - docker push 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID
+      - aws configure set region $AWS_REGION
+      - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
+      - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
+      - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
+      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $EKS_REGION
+      #- aws configure set aws_access_key_id $AWS_ACCESS_KEY
+      #- aws configure set aws_secret_access_key $AWS_SECRET_KEY
+      #- aws configure set aws_session_token $AWS_TOKEN
       #- aws sts get-caller-identity
       #- kubectl get configmap -n kube-system aws-auth -o yaml
       #- ls
