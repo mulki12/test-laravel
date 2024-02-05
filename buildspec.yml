@@ -27,7 +27,7 @@ phases:
       - echo Build started on date
       - echo Building the Docker image...
       - DOCKER_IMAGE_TAG=$(date +%Y%m%d)        
-      - docker build -t test-laravel:$DOCKER_IMAGE_TAG .
+      - docker build -t test-laravel:${GIT_COMMIT} .
       - docker image 
 #      - COMMIT_HASH=$(git rev-parse --short HEAD)
 #      - IMAGE_TAG=221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:${COMMIT_HASH}
@@ -37,9 +37,9 @@ phases:
     commands:
       - echo Build completed on date
       - echo Pushing the Docker image...
-      - docker tag test-laravel:$DOCKER_IMAGE_TAG 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$DOCKER_IMAGE_TAG
+      - docker tag test-laravel:${GIT_COMMIT}  221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:${GIT_COMMIT} 
       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com
-      - docker push 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$DOCKER_IMAGE_TAG
+      - docker push 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:${GIT_COMMIT} 
 ##      - docker push $IMAGE_TAG
 ##      - printf '[{"name":"(task_definition)","imageUri":"%s"}]' ($AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
 artifacts:
