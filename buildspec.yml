@@ -4,18 +4,18 @@ phases:
   install:
     commands:
       #- $(aws ecr get-login --no-include-email --region $AWS_REGION)
-      - apt install unzip
-      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-      - unzip awscliv2.zip
-      - ./aws/install --update
+      #- apt install unzip
+      #- curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      #- unzip awscliv2.zip
+      #- ./aws/install --update
       #- nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &
-      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
-      - curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/kubectl
-      - chmod +x ./kubectl
-      - mkdir -p ~/.local/bin && mv ./kubectl ~/.local/bin/kubectl
-      - curl -sS -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
-      - curl -sS -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
-      - chmod +x ./kubectl ./aws-iam-authenticator
+      #- timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
+      #- curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/kubectl
+      #- chmod +x ./kubectl
+      #- mkdir -p ~/.local/bin && mv ./kubectl ~/.local/bin/kubectl
+      #- curl -sS -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
+      #- curl -sS -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
+      #- chmod +x ./kubectl ./aws-iam-authenticator
 
 
   pre_build:
@@ -25,7 +25,7 @@ phases:
       #- docker login https://hub.docker.com -u $DOCKERHUB_USERNAME --password-stdin 
       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com
       #- TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
-      - export KUBECONFIG=$HOME/.kube/config
+      #- export KUBECONFIG=$HOME/.kube/config
   build:
     commands:
       - echo Build started on date
