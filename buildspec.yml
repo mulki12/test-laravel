@@ -13,7 +13,7 @@ phases:
       - chmod +x ./kubectl
       - mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
       - kubectl version --short --client
-      - aws eks update-kubeconfig --region $AWS_DEFAULT_REGION --name $EKS_CLUSTER_NAME
+      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION 
       - cat ~/.kube/config
       - curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
       - chmod 700 get_helm.sh
