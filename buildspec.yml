@@ -19,7 +19,7 @@ phases:
       - chmod +x ./kubectl ./aws-iam-authenticator
       - echo login in to amazon ECR
       #- docker login https://hub.docker.com -u $DOCKERHUB_USERNAME --password-stdin 
-      #- aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com
+      - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com
       #- TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
       - export KUBECONFIG=$HOME/.kube/config
   build:
@@ -32,7 +32,7 @@ phases:
 #      - COMMIT_HASH=$(git rev-parse --short HEAD)
 #      - IMAGE_TAG=221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:${COMMIT_HASH}
       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com
-      - docker tag test-laravel 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$DOCKER_IMAGE_TAG
+      - docker push 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$DOCKER_IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on date
