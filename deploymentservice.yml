@@ -1,25 +1,32 @@
 
-   
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: anjasmara-service-general-deployment
-  namespace: health-check
+  name: test-laravel
+  namespace: dev
   labels:
-    app: anjasmara-service-general
+    app: test-laravel
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: anjasmara-service-general
+      app: test-laravel
   template:
     metadata:
       labels:
-        app: anjasmara-service-general 
+        app: test-laravel 
     spec:
       containers:
-      - name: anjasmara-service-general
-        image: 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:**BUILD_ID**
+      - name: test-laravel
+        image: 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID
         ports:
         - containerPort: 3001
       imagePullSecrets:
@@ -29,11 +36,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: anjasmara-service-general
+  name: test-laravel
   namespace: health-check
 spec:
   selector:
-    app: anjasmara-service-general 
+    app: test-laravel 
   type: NodePort
   ports:
   - protocol: TCP
