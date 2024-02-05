@@ -16,6 +16,9 @@ phases:
       #- curl -sS -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
       #- curl -sS -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
       #- chmod +x ./kubectl ./aws-iam-authenticator
+      - curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/kubectl
+      - chmod +x ./kubectl
+      - mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
 
 
   pre_build:
@@ -43,10 +46,9 @@ phases:
       - echo Pushing the Docker image...
       - docker tag test-laravel:$COMMIT_ID  221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID 
       - docker push 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID
-      - aws configure set region $AWS_REGION
+      #- aws configure set region $AWS_REGION
       - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
       - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
-      - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
       #- aws eks update-kubeconfig --name $EKS_CLUSTER_NAME 
       #- aws configure set aws_access_key_id $AWS_ACCESS_KEY
       #- aws configure set aws_secret_access_key $AWS_SECRET_KEY
