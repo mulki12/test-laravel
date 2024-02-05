@@ -3,7 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
-      - $(aws ecr get-login --no-include-email --region $AWS_REGION)
+      #- $(aws ecr get-login --no-include-email --region $AWS_REGION)
       - apt install unzip
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       - unzip awscliv2.zip
