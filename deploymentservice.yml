@@ -41,7 +41,7 @@ metadata:
 spec:
   selector:
     app: test-laravel 
-  type: NodePort
+  type: LoadBalancer
   ports:
   - protocol: TCP
     port: 3001
