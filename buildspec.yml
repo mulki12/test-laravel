@@ -10,8 +10,8 @@ phases:
       #- curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       #- unzip awscliv2.zip
       #- ./aws/install --update
-      - nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 & 
-      - timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
+      #- nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 & 
+      #- timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
       #- curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/kubectl
       #- chmod +x ./kubectl
       #- mkdir -p ~/.local/bin && mv ./kubectl ~/.local/bin/kubectl
@@ -21,15 +21,15 @@ phases:
       - curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/kubectl
       - chmod +x ./kubectl
       - mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
-      - usermod -aG docker $USER
+      #- usermod -aG docker $USER
   pre_build:
     commands:
       #- sudo rm -rf ~/Library/Caches/com.docker.docker ~/Library/Cookies/com.docker.docker.binarycookies ~/Library/Group\ Containers/group.com.docker ~/Library/Logs/Docker\ Desktop ~/Library/Preferences/com.docker.docker.plist ~/Library/Preferences/com.electron.docker-frontend.plist ~/Library/Saved\ Application\ State/com.electron.docker-frontend.savedState ~/.docker /Library/LaunchDaemons/com.docker.vmnetd.plist /Library/PrivilegedHelperTools/com.docker.vmnetd /usr/local/lib/docker
       #- $(aws ecr get-login --no-include-email)
       #- docker login https://hub.docker.com -u $DOCKERHUB_USERNAME --password-stdin 
-      - export LC_ALL="en_US.UTF-8"
-      - locale-gen en_US en_US.UTF-8
-      - dpkg-reconfigure locales
+      #- export LC_ALL="en_US.UTF-8"
+      #- locale-gen en_US en_US.UTF-8
+      #- dpkg-reconfigure locales
       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com
       #- TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
       #- export KUBECONFIG=$HOME/.kube/config
