@@ -3,6 +3,8 @@ version: 0.2
 phases:
   install:
     commands:
+      - apt-get update
+      - apt-get install -y docker.io
       #- $(aws ecr get-login --no-include-email --region $AWS_REGION)
       #- apt install unzip
       #- curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -35,7 +37,7 @@ phases:
       #- DOCKER_IMAGE_TAG=$(date +%Y%m%d)   
       - COMMIT_ID=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -b -8)     
       - docker build -t test-laravel:$COMMIT_ID .
-      - docker image 
+      #- docker image 
 #      - COMMIT_HASH=$(git rev-parse --short HEAD)
 #      - IMAGE_TAG=221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:${COMMIT_HASH}
       
