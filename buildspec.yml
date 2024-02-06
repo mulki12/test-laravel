@@ -24,7 +24,7 @@ phases:
       #- sudo rm -rf ~/Library/Caches/com.docker.docker ~/Library/Cookies/com.docker.docker.binarycookies ~/Library/Group\ Containers/group.com.docker ~/Library/Logs/Docker\ Desktop ~/Library/Preferences/com.docker.docker.plist ~/Library/Preferences/com.electron.docker-frontend.plist ~/Library/Saved\ Application\ State/com.electron.docker-frontend.savedState ~/.docker /Library/LaunchDaemons/com.docker.vmnetd.plist /Library/PrivilegedHelperTools/com.docker.vmnetd /usr/local/lib/docker
       #- $(aws ecr get-login --no-include-email)
       #- docker login https://hub.docker.com -u $DOCKERHUB_USERNAME --password-stdin 
-      - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com
+      aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com
       #- TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
       #- export KUBECONFIG=$HOME/.kube/config
   build:
