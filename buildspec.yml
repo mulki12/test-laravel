@@ -3,8 +3,8 @@ version: 0.2
 phases:
   install:
     commands:
-      - apt update
-      - apt install -y docker.io
+      - yum update
+      - yum install -y docker.io
       #- $(aws ecr get-login --no-include-email --region $AWS_REGION)
       #- apt install unzip
       #- curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
