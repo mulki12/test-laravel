@@ -42,8 +42,8 @@ phases:
     commands:
       - echo Build completed on date
       - echo Pushing the Docker image...
-      - docker tag test-laravel:$COMMIT_ID  221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID 
-      - docker push 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID
+      - docker tag test-laravel:$COMMIT_ID $REPOSITORY_URI:$COMMIT_ID 
+      - docker push $REPOSITORY_URL:$COMMIT_ID
       #- aws configure set region $AWS_REGION
       - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
       - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
