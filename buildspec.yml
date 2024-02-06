@@ -72,5 +72,3 @@ artifacts:
     files: 
       - imagedefinitions.json
       - deploymentservice.yml
-
-
