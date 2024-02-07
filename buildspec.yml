@@ -19,10 +19,15 @@ phases:
       - aws --version
       - aws configure set aws_access_key_id $AWS_ACCESS_KEY
       - aws configure set aws_secret_access_key $AWS_SECRET_KEY
-      - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl
-      - chmod +x kubectl
-      - mv ./kubectl /usr/local/bin/kubectl
-      - chmod +x /usr/local/bin/kubectl
+      #- curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl
+      #- chmod +x kubectl
+      #- mv ./kubectl /usr/local/bin/kubectl
+      #- chmod +x /usr/local/bin/kubectl
+      #- curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/aws-iam-authenticator
+      - curl -sS -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
+      - chmod +x ./kubectl ./aws-iam-authenticator
+      - export PATH=$PWD/:$PATH
+      - export KUBECONFIG=$HOME/.kube/config
       #- $(aws ecr get-login --region ap-southeast-1 --no-include-email)
       #- aws sts get-caller-identity
       # - ./aws/install --update
