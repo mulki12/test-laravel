@@ -25,10 +25,12 @@ phases:
       - rm -rf /usr/local/bin/kubectl
       #- chmod +x /usr/local/bin/kubectl
       #- curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/aws-iam-authenticator
-      - curl -sS -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
+      - curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.12/2024-01-04/bin/darwin/amd64/kubectl
       - chmod +x ./kubectl
-      - export PATH=$PWD/:$PATH
-      - export KUBECONFIG=$HOME/.kube/config
+      - mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
+      - echo 'export PATH=$HOME/bin:$PATH' >> ~/.bash_profile
+      #- export PATH=$PWD/:$PATH
+      #- export KUBECONFIG=$HOME/.kube/config
       #- $(aws ecr get-login --region ap-southeast-1 --no-include-email)
       #- aws sts get-caller-identity
       # - ./aws/install --update
