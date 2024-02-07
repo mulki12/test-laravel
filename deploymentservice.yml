@@ -2,9 +2,14 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: dev
-
+spec:
+  template:
+    spec:
+      containers:
+        - image: 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:v2
+        - image: 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:v2
+        - image: 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:v2
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,17 +25,18 @@ spec:
   template:
     metadata:
       labels:
-        app: test-laravel 
+        app: test-laravel
     spec:
       containers:
-      - name: test-laravel
-        image: 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID
-        ports:
-        - containerPort: 3001
+        - name: test-laravel
+          image: 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:v2
+          ports:
+            - containerPort: 3001
+        - image: 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:v2
+        - image: 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:v2
       imagePullSecrets:
-          - name: regcred       
+        - name: regcred
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -38,10 +44,16 @@ metadata:
   namespace: dev
 spec:
   selector:
-    app: test-laravel 
+    app: test-laravel
   type: LoadBalancer
   ports:
-  - protocol: TCP
-    port: 3001
-    targetPort: 3001
-    nodePort: 32303
+    - protocol: TCP
+      port: 3001
+      targetPort: 3001
+      nodePort: 32303
+  template:
+    spec:
+      containers:
+        - image: 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:v2
+        - image: 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:v2
+        - image: 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:v2
