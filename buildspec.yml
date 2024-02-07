@@ -4,7 +4,9 @@ phases:
   install:
     commands:
       #- yum update
-      #- yum install -y docker
+      - yum install -y docker
+      - sudo chown -R $(id -u):$(id -g) $HOME/.docker
+      - sudo systemctl daemon-reload
       #- sudo systemctl start docker
       #- sudo systemctl enable docker
       #- sudo systemctl status docker
