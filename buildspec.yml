@@ -5,9 +5,10 @@ phases:
     commands:
       #- yum update
       - yum install -y docker
-      - /etc/init.d/docker enable
-      - /etc/init.d/docker start
-      - /etc/init.d/docker status
+      - sudo systemctl start docker
+      - sudo systemctl enable docker
+      - sudo systemctl status docker
+      - sudo usermod -a -G docker $(whoami)
       #- $(aws ecr get-login --no-include-email --region $AWS_REGION)
       #- apt install unzip
       - rm -rf ~/Library/Caches/com.docker.docker ~/Library/Cookies/com.docker.docker.binarycookies ~/Library/Group\ Containers/group.com.docker ~/Library/Logs/Docker\ Desktop ~/Library/Preferences/com.docker.docker.plist ~/Library/Preferences/com.electron.docker-frontend.plist ~/Library/Saved\ Application\ State/com.electron.docker-frontend.savedState ~/.docker /Library/LaunchDaemons/com.docker.vmnetd.plist /Library/PrivilegedHelperTools/com.docker.vmnetd /usr/local/lib/docker
