@@ -16,11 +16,11 @@ WORKDIR /generals
 COPY . /generals
 
 RUN composer install
-CMD php artisan queue:work
+#CMD php artisan queue:work
 CMD php artisan key:generate
 CMD php artisan migrate:fresh
 CMD php artisan serve --host=0.0.0.0 --port=3001
-RUN chmod -R 777 storage
+#RUN chmod -R 777 storage
 
 EXPOSE 3001
 

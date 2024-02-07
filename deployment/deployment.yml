@@ -13,12 +13,12 @@ spec:
   template:
     metadata:
       labels:
-        app: test-laravel 
+        app: test-laravel
     spec:
       containers:
-      - name: test-laravel
-        image: 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID
-        ports:
-        - containerPort: 3001
+        - name: test-laravel
+          image: 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:test
+          ports:
+            - containerPort: 3001
       imagePullSecrets:
-          - name: regcred
+        - name: regcred
