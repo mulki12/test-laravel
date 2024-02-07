@@ -37,7 +37,6 @@ phases:
       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com
       #- TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
       #- export KUBECONFIG=$HOME/.kube/config
-
   build:
     commands:
       - echo Build started on date
