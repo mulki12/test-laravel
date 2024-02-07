@@ -12,7 +12,7 @@ phases:
       - aws --version
       - aws configure set aws_access_key_id $AWS_ACCESS_KEY
       - aws configure set aws_secret_access_key $AWS_SECRET_KEY
-      - aws sts get-caller-identity
+      #- aws sts get-caller-identity
       # - ./aws/install --update
       #- nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 & 
       #- timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
