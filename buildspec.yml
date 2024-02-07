@@ -9,7 +9,11 @@ phases:
       #- apt install unzip
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       - unzip awscliv2.zip
-      - ./aws/install --update
+      - aws --version
+      - aws configure set aws_access_key_id $AWS_ACCESS_KEY
+      - aws configure set aws_secret_access_key $AWS_SECRET_KEY
+      - aws sts get-caller-identity
+      # - ./aws/install --update
       #- nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 & 
       #- timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
       #- curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/kubectl
