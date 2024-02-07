@@ -14,6 +14,9 @@ phases:
       - aws --version
       - aws configure set aws_access_key_id $AWS_ACCESS_KEY
       - aws configure set aws_secret_access_key $AWS_SECRET_KEY
+      - "aws eks update-kubeconfig --region ap-southeast-1 --name $EKS_CLUSTER_NAME" 
+      #- "chmod 0600 ~/.kube/config"
+      - "aws sts get-caller-identity"
       - cat /etc/os-release
       - curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.12/2024-01-04/bin/linux/amd64/kubectl
       - chmod +x ./kubectl
@@ -62,9 +65,6 @@ phases:
       #- dpkg-reconfigure locales
       - rm -rf ~/.kube
       - "mkdir ~/.kube/"
-      - "aws eks update-kubeconfig --region ap-southeast-1 --name $EKS_CLUSTER_NAME" 
-      - "chmod 0600 ~/.kube/config"
-      - "aws sts get-caller-identity"
       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com
       #- TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
       - export KUBECONFIG=~/.kube/config
@@ -115,4 +115,3 @@ artifacts:
       - build.json
       - deploymentservice.yml
       #- deployment/*
-      
