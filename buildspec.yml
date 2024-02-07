@@ -64,7 +64,6 @@ phases:
       #- docker image 
 #      - COMMIT_HASH=$(git rev-parse --short HEAD)
 #      - IMAGE_TAG=221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:${COMMIT_HASH}
-      
   post_build:
     commands:
       - echo Build completed on date
