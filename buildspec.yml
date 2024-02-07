@@ -20,7 +20,7 @@ phases:
       - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl
       - chmod +x kubectl
       - mv ./kubectl /usr/local/bin/kubectl
-      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - $(aws ecr get-login --region ap-southeast-1 --no-include-email)
       #- aws sts get-caller-identity
       # - ./aws/install --update
       #- nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 & 
@@ -48,7 +48,7 @@ phases:
       #- locale-gen en_US en_US.UTF-8
       #- dpkg-reconfigure locales
       - "mkdir ~/.kube/"
-      - "aws eks --region $AWS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME"
+      - "aws eks update-kubeconfig --region ap-southeast-1 --name $EKS_CLUSTER_NAME"
       - "chmod 0600 ~/.kube/config"
       - "aws sts get-caller-identity"
       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com
