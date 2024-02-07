@@ -22,7 +22,7 @@ phases:
       - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl
       - chmod +x kubectl
       - mv ./kubectl /usr/local/bin/kubectl
-      - $(aws ecr get-login --region ap-southeast-1 --no-include-email)
+      #- $(aws ecr get-login --region ap-southeast-1 --no-include-email)
       #- aws sts get-caller-identity
       # - ./aws/install --update
       #- nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 & 
