@@ -88,6 +88,7 @@ phases:
       #- docker tag test-laravel:$COMMIT_ID 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID 
       - docker push 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID
       - yq e -i '.spec.template.spec.containers[].image = "679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID"' deployment/deployment.yml
+      - cat deployment/deployment.yml
       - kubectl get node -o wide
       - kubectl get ns -A
       #- aws configure set region $AWS_REGION
