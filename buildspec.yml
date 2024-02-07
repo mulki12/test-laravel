@@ -3,13 +3,6 @@ version: 0.2
 phases:
   install:
     commands:
-      #- yum update
-      #- yum install -y docker
-      #- sudo chown -R $(id -u):$(id -g) $HOME/.docker
-      #- sudo systemctl daemon-reload
-      #- sudo systemctl start docker
-      #- sudo systemctl enable docker
-      #- sudo systemctl status docker
       #- sudo usermod -a -G docker $(whoami)
       #- $(aws ecr get-login --no-include-email --region $AWS_REGION)
       #- apt install unzip
@@ -50,7 +43,7 @@ phases:
       #- aws eks --region $AWS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME 
       #- curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/kubectl
       #- chmod +x ./kubectl
-      #- usermod -aG docker $USER
+
   pre_build:
     commands:
       #- sudo rm -rf ~/Library/Caches/com.docker.docker ~/Library/Cookies/com.docker.docker.binarycookies ~/Library/Group\ Containers/group.com.docker ~/Library/Logs/Docker\ Desktop ~/Library/Preferences/com.docker.docker.plist ~/Library/Preferences/com.electron.docker-frontend.plist ~/Library/Saved\ Application\ State/com.electron.docker-frontend.savedState ~/.docker /Library/LaunchDaemons/com.docker.vmnetd.plist /Library/PrivilegedHelperTools/com.docker.vmnetd /usr/local/lib/docker
