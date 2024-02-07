@@ -10,6 +10,7 @@ phases:
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       - unzip awscliv2.zip
       - ls -all
+      - cd aws
       - ./aws/install
       - aws --version
       - aws configure set aws_access_key_id $AWS_ACCESS_KEY
