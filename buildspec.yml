@@ -17,6 +17,9 @@ phases:
       #- aws --version
       #- aws configure set aws_access_key_id $AWS_ACCESS_KEY
       #- aws configure set aws_secret_access_key $AWS_SECRET_KEY
+      - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl
+      - chmod +x kubectl
+      - mv ./kubectl /usr/local/bin/kubectl
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       #- aws sts get-caller-identity
       # - ./aws/install --update
@@ -44,6 +47,10 @@ phases:
       #- export LC_ALL="en_US.UTF-8"
       #- locale-gen en_US en_US.UTF-8
       #- dpkg-reconfigure locales
+      - "mkdir ~/.kube/"
+      - "aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $EKS_CLUSTER_NAME --role-arn $EKS_CODEBUILD_ROLE_ARN"
+      - "chmod 0600 ~/.kube/config"
+      - "aws sts get-caller-identity"
       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com
       #- TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
       #- export KUBECONFIG=$HOME/.kube/config
