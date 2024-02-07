@@ -102,5 +102,5 @@ artifacts:
       - imagedefinitions.json
       - build.json
       - deploymentservice.yml
-      - deployment/*
+      #- deployment/*
 
