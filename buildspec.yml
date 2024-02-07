@@ -50,13 +50,14 @@ phases:
       #- export LC_ALL="en_US.UTF-8"
       #- locale-gen en_US en_US.UTF-8
       #- dpkg-reconfigure locales
+      - rm -rf ~/.kube
       - "mkdir ~/.kube/"
       - "aws eks update-kubeconfig --region ap-southeast-1 --name $EKS_CLUSTER_NAME" 
       - "chmod 0600 ~/.kube/config"
       - "aws sts get-caller-identity"
       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com
       #- TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
-      #- export KUBECONFIG=$HOME/.kube/config
+      - export KUBECONFIG=~/.kube/config
   build:
     commands:
       - echo Build started on date
