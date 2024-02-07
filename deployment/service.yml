@@ -1,9 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: anjasmara-service-general
-  ports:
-  - port: 3001
-    targetPort: 3001
+  name: test-laravel
+  namespace: dev
+spec:
   selector:
-    app: anjasmara-service-general
+    app: test-laravel 
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 3001
+    targetPort: 3001
+    nodePort: 32303

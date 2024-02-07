@@ -1,20 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: anjasmara-service-general
+  name: test-laravel
+  namespace: dev
+  labels:
+    app: test-laravel
 spec:
   replicas: 1
-  revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: anjasmara-service-general
+      app: test-laravel
   template:
     metadata:
       labels:
-        app: anjasmara-service-general
+        app: test-laravel 
     spec:
       containers:
-      - image: mulki12/anjasmara_service_general
-        name: anjasmara-service-general
+      - name: test-laravel
+        image: 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID
         ports:
         - containerPort: 3001
+      imagePullSecrets:
+          - name: regcred
