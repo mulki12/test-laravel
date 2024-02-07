@@ -60,7 +60,7 @@ phases:
       - echo Building the Docker image...
       #- DOCKER_IMAGE_TAG=$(date +%Y%m%d)   
       - COMMIT_ID=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -b -8)     
-      - docker build --tag $REPOSITORY:$COMMIT_ID .
+      - docker build --tag test-laravel:$COMMIT_ID .
       #- docker image 
 #      - COMMIT_HASH=$(git rev-parse --short HEAD)
 #      - IMAGE_TAG=221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:${COMMIT_HASH}
