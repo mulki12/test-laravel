@@ -3,119 +3,36 @@ version: 0.2
 phases:
   install:
     commands:
-      #- sudo usermod -a -G docker $(whoami)
-      #- $(aws ecr get-login --no-include-email --region $AWS_REGION)
-      #- apt install unzip
-      #- rm -rf ~/Library/Caches/com.docker.docker ~/Library/Cookies/com.docker.docker.binarycookies ~/Library/Group\ Containers/group.com.docker ~/Library/Logs/Docker\ Desktop ~/Library/Preferences/com.docker.docker.plist ~/Library/Preferences/com.electron.docker-frontend.plist ~/Library/Saved\ Application\ State/com.electron.docker-frontend.savedState ~/.docker /Library/LaunchDaemons/com.docker.vmnetd.plist /Library/PrivilegedHelperTools/com.docker.vmnetd /usr/local/lib/docker
       - wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64.tar.gz -O - | tar xz && mv yq_linux_amd64 /usr/bin/yq;
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       - unzip awscliv2.zip
       - ./aws/install --update
-      - aws --version
       - aws configure set aws_access_key_id $AWS_ACCESS_KEY
       - aws configure set aws_secret_access_key $AWS_SECRET_KEY
       - "aws eks update-kubeconfig --region ap-southeast-1 --name $EKS_CLUSTER_NAME" 
-      #- "chmod 0600 ~/.kube/config"
-      - "aws sts get-caller-identity"
-      - cat /etc/os-release
       - curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.12/2024-01-04/bin/linux/amd64/kubectl
       - chmod +x ./kubectl
       - mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
       - echo 'export PATH=$HOME/bin:$PATH' >> ~/.bashrc
-      - kubectl version --client
-      - ls -all
-      #- curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl
-      #- chmod +x kubectl
-      #- mv ./kubectl /usr/local/bin/kubectl
-      #- rm -rf /usr/local/bin/kubectl
-      #- chmod +x /usr/local/bin/kubectl
-      #- curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/aws-iam-authenticator
-      # - curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.26.12/2024-01-04/bin/darwin/amd64/kubectl
-      # - chmod +x ./kubectl
-      # - mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
-      # - echo 'export PATH=$HOME/bin:$PATH' >> ~/.bash_profile
-      # - kubectl version --client
-      #- export PATH=$PWD/:$PATH
-      #- export KUBECONFIG=$HOME/.kube/config
-      #- $(aws ecr get-login --region ap-southeast-1 --no-include-email)
-      #- aws sts get-caller-identity
-      # - ./aws/install --update
-      #- nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 & 
-      #- timeout 15 sh -c "until docker info; do echo .; sleep 1; done"
-      #- curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/kubectl
-      #- chmod +x ./kubectl
-      #- mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
-      #- kubectl version --short --client
-      #- rm -rf $HOME/.kube/config
-      #- rm -rf ~/.kube/config
-      #- curl -sS -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
-      #- curl -sS -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
-      #- chmod +x ./kubectl ./aws-iam-authenticator
-      #- mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$HOME/bin:$PATH
-      #- aws eks --region $AWS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME 
-      #- curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/darwin/amd64/kubectl
-      #- chmod +x ./kubectl
-
   pre_build:
     commands:
-      #- sudo rm -rf ~/Library/Caches/com.docker.docker ~/Library/Cookies/com.docker.docker.binarycookies ~/Library/Group\ Containers/group.com.docker ~/Library/Logs/Docker\ Desktop ~/Library/Preferences/com.docker.docker.plist ~/Library/Preferences/com.electron.docker-frontend.plist ~/Library/Saved\ Application\ State/com.electron.docker-frontend.savedState ~/.docker /Library/LaunchDaemons/com.docker.vmnetd.plist /Library/PrivilegedHelperTools/com.docker.vmnetd /usr/local/lib/docker
-      #- $(aws ecr get-login --no-include-email)
-      #- docker login https://hub.docker.com -u $DOCKERHUB_USERNAME --password-stdin 
-      #- export LC_ALL="en_US.UTF-8"
-      #- locale-gen en_US en_US.UTF-8
-      #- dpkg-reconfigure locales
-      #- rm -rf ~/.kube
-      #- "mkdir ~/.kube/"
       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com
-      #- TAG="$REPOSITORY_NAME.$REPOSITORY_BRANCH.$ENVIRONMENT_NAME.$(date +%Y-%m-%d.%H.%M.%S).$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
-      #- export KUBECONFIG=~/.kube/config
   build:
     commands:
       - echo Build started on date
-      - echo Building the Docker image...
-      #- DOCKER_IMAGE_TAG=$(date +%Y%m%d)   
+      - echo Building the Docker image...  
       - COMMIT_ID=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -b -8)     
       - docker build -t test-laravel:latest .
       - docker tag test-laravel:latest 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID
-      - docker images 
-      #- docker image 
-#      - COMMIT_HASH=$(git rev-parse --short HEAD)
-#      - IMAGE_TAG=221047265242.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:${COMMIT_HASH}
   post_build:
     commands:
       - echo Build completed on date
       - echo Pushing the Docker image...
-      #- docker tag test-laravel:$COMMIT_ID 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID 
       - docker push 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:$COMMIT_ID
       - yq e -i '.spec.template.spec.containers[].image = "679381888694.dkr.ecr.ap-southeast-1.amazonaws.com/test-laravel:'"$COMMIT_ID"'"' deployment/deployment.yml
-      - cat deployment/deployment.yml
-      - kubectl get node -o wide
-      - kubectl get ns -A
-      #- aws configure set region $AWS_REGION
-      #- export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
-      #- export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
-      #- aws eks update-kubeconfig --name $EKS_CLUSTER_NAME 
-      #- aws configure set aws_access_key_id $AWS_ACCESS_KEY
-      #- aws configure set aws_secret_access_key $AWS_SECRET_KEY
-      #- aws configure set aws_session_token $AWS_TOKEN
-      #- aws sts get-caller-identity
-      #- kubectl get configmap -n kube-system aws-auth -o yaml
-      #- ls
-      #- ./aws-auth.sh > aws-auth.yaml
-      #- cat aws-auth.yaml
-      #- aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 221047265242.dkr.ecr.ap-southeast-1.amazonaws.com
-      #- CREDENTIALS=$(aws sts assume-role --role-arn $EKS_ROLE_ARN --role-session-name codeBuild_EKS --duration-seconds 900)
-      #- export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
-      #- export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
-      #- export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
-      #- export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
-      #- aws eks update-kubeconfig --name $EKS_CLUSTERNAME
       - kubectl apply -f deployment/
-##      - docker push $IMAGE_TAG
-##      - printf '[{"name":"(task_definition)","imageUri":"%s"}]' ($AWS_ACCOUNT_ID.dkr.ecr.ap-southeast-1.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG > imagedefinitions.json
 artifacts:
     files: 
       - imagedefinitions.json
       - build.json
-      #- deploymentservice.yml
       - deployment/*
