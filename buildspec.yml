@@ -48,7 +48,7 @@ phases:
       #- locale-gen en_US en_US.UTF-8
       #- dpkg-reconfigure locales
       - "mkdir ~/.kube/"
-      - "aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $EKS_CLUSTER_NAME --role-arn $EKS_CODEBUILD_ROLE_ARN"
+      - "aws eks --region $AWS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME --role-arn $EKS_ROLE_ARN"
       - "chmod 0600 ~/.kube/config"
       - "aws sts get-caller-identity"
       - aws ecr get-login-password --region ap-southeast-1 | docker login --username AWS --password-stdin 679381888694.dkr.ecr.ap-southeast-1.amazonaws.com
